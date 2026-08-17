@@ -3,6 +3,10 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 
+const configRoutes = require("./routes/config.routes");
+
+const leadRoutes = require("./routes/lead.routes");
+
 const app = express();
 
 app.use(helmet());
@@ -24,5 +28,9 @@ app.get("/api/health", (req, res) => {
     message: "Wantace API is running",
   });
 });
+
+app.use("/api/config", configRoutes);
+
+app.use("/api/leads", leadRoutes);
 
 module.exports = app;
