@@ -6,6 +6,10 @@ import {
 } from "react-router-dom";
 
 import Estimator from "./pages/Estimator";
+import Login from "./pages/Login";
+import OwnerDashboard from "./pages/OwnerDashboard";
+
+import ProtectedRoute from "./components/common/ProtectedRoute";
 
 function App() {
   return (
@@ -17,8 +21,27 @@ function App() {
         />
 
         <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/owner"
+          element={
+            <ProtectedRoute>
+              <OwnerDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="*"
-          element={<Navigate to="/" replace />}
+          element={
+            <Navigate
+              to="/"
+              replace
+            />
+          }
         />
       </Routes>
     </BrowserRouter>
