@@ -8,15 +8,21 @@ const {
   
   const {
     createLead,
+    getLeads,
   } = require("../services/lead.service");
   
   const {
     validateLeadInput,
   } = require("../validators/lead.validator");
   
-  const submitLead = async (req, res, next) => {
+  const submitLead = async (
+    req,
+    res,
+    next
+  ) => {
     try {
-      const errors = validateLeadInput(req.body);
+      const errors =
+        validateLeadInput(req.body);
   
       if (errors.length > 0) {
         const error = new Error(
@@ -31,19 +37,21 @@ const {
       const configuration =
         await getActiveConfiguration();
   
-      const estimate = calculateEstimate(
-        configuration,
-        req.body.answers
-      );
+      const estimate =
+        calculateEstimate(
+          configuration,
+          req.body.answers
+        );
   
-      const lead = await createLead({
-        configuration,
-        name: req.body.name,
-        phone: req.body.phone,
-        email: req.body.email,
-        answers: req.body.answers,
-        estimate,
-      });
+      const lead =
+        await createLead({
+          configuration,
+          name: req.body.name,
+          phone: req.body.phone,
+          email: req.body.email,
+          answers: req.body.answers,
+          estimate,
+        });
   
       res.status(201).json({
         success: true,
@@ -55,8 +63,11 @@ const {
             configuration.version,
   
           estimate: {
-            low: estimate.estimate_low,
-            high: estimate.estimate_high,
+            low:
+              estimate.estimate_low,
+  
+            high:
+              estimate.estimate_high,
           },
         },
       });
@@ -65,6 +76,24 @@ const {
     }
   };
   
+  const getOwnerLeads = async (
+    req,
+    res,
+    next
+  ) => {
+    try {
+      const leads = await getLeads();
+  
+      res.status(200).json({
+        success: true,
+        data: leads,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  
   module.exports = {
     submitLead,
+    getOwnerLeads,
   };

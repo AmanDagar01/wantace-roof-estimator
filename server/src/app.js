@@ -7,6 +7,10 @@ const configRoutes = require("./routes/config.routes");
 
 const leadRoutes = require("./routes/lead.routes");
 
+const authRoutes = require("./routes/auth.routes");
+
+const ownerConfigRoutes = require("./routes/owner-config.routes");
+
 const app = express();
 
 app.use(helmet());
@@ -32,5 +36,9 @@ app.get("/api/health", (req, res) => {
 app.use("/api/config", configRoutes);
 
 app.use("/api/leads", leadRoutes);
+
+app.use("/api/auth", authRoutes);
+
+app.use("/api/owner/config", ownerConfigRoutes);
 
 module.exports = app;
